@@ -4,20 +4,20 @@
     <div class="container">
         <hr>
         <div class="jumbotron">
-            <h1 class="display-4">Bem-vindo</h1>
-            <p class="lead">Este é um simples blog do guia do programador.</p>
+            <h1 class="display-4">Bem-vindos</h1>
+            <p class="lead">Likado Este é um simples blog do guia do programador.</p>
             <hr class="my-4">
             <p>Descrição detalhada aqui!</p>
-            <a class="btn btn-primary btn-lg" href="#" role="button">Leia mais</a>
+            <a class="btn btn-secondary btn-lg" href="#" role="button">Leia mais</a>
           </div>
         <hr>
         <% articles.forEach(article => { %>
             <div class="card">
                 <div class="card-header">
-                    <h2><%= article.title %></h2>
+                    <h5><%= article.title %></h5>
                 </div>
                 <div class="card-body">
-                    <a href="/<%= article.slug %>" class="btn btn-success">Ler artigo</a>
+                    <a href="/<%= article.slug %>" class="btn btn-secondary">Ler artigo</a>
                 </div>
             </div>
             <br>

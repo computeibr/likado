@@ -97,6 +97,8 @@ app.get("/category/:slug",(req, res) => {
 })
 
 
-app.listen(3000, () => {
-    console.log("O servidor está rodando!")
-})
+                               
+var port = process.env.PORT || 3000;
+app.listen(port, function () {
+    console.log('Umbler listening on port %s', port);
+});

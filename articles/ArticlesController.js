@@ -4,6 +4,8 @@ const Category = require("../categories/Category");
 const Article = require("./Article");
 const slugify = require("slugify");
 const adminAuth = require("../middlewares/adminAuth");
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 router.get("/admin/articles", adminAuth ,(req, res) => {
     Article.findAll({
@@ -13,6 +15,20 @@ router.get("/admin/articles", adminAuth ,(req, res) => {
     });
 });
 
+
+router.post("/admin/search", adminAuth ,(req, res) => {
+    
+    var term = req.body.nome;
+    var termonome = req.body.nome;
+
+    Article.findAll({ where: { nome: {[Op.like]: '%' + termonome + '%' }},
+        include: [{model: Category}]
+    }).then(articles => {
+        res.render("admin/articles/index",{articles: articles})
+    });
+});
+
+
 router.get("/admin/articles/new", adminAuth ,(req ,res) => {
     Category.findAll().then(categories => {
         res.render("admin/articles/new",{categories: categories})
@@ -21,11 +37,13 @@ router.get("/admin/articles/new", adminAuth ,(req ,res) => {
 
 router.post("/articles/save", adminAuth, (req, res) => {
     var title = req.body.title;
+    var nome = req.body.nome;
     var body = req.body.body;
     var category = req.body.category;
 
     Article.create({
         title: title,
+        nome: nome,
         slug: slugify(title),
         body: body,
         categoryId: category
@@ -73,10 +91,11 @@ router.get("/admin/articles/edit/:id", adminAuth , (req, res) => {
 router.post("/articles/update", adminAuth, (req, res) => {
     var id = req.body.id;
     var title = req.body.title;
+    var nome = req.body.nome;
     var body = req.body.body;
     var category = req.body.category
 
-    Article.update({title: title, body: body, categoryId: category, slug:slugify(title)},{
+    Article.update({title: title, nome: nome, body: body, categoryId: category, slug:slugify(title)},{
         where: {
             id: id
         }
